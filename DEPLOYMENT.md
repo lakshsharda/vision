@@ -1,21 +1,26 @@
 # Deploying Vision-to-Voice Assistant to Render.com
 
-This guide will help you deploy your Vision-to-Voice Assistant to Render.com for your hackathon submission with **REAL-TIME CAMERA ACCESS** from users' browsers.
-
-## 🎥 How It Works
-
-The deployed version uses **browser camera capture**:
-1. Frontend captures video from user's device camera (phone/laptop)
-2. Sends frames to backend via WebSocket
-3. Backend processes with YOLO + depth estimation
-4. Returns detected objects and voice guidance
-5. **Users can use their own camera in real-time!**
+This guide will help you deploy your Vision-to-Voice Assistant to Render.com for your hackathon submission.
 
 ## 📋 Prerequisites
 
 1. **GitHub Account** - Your code should be pushed to GitHub
 2. **Render.com Account** - Sign up at [render.com](https://render.com) (free tier available)
-3. **Camera-enabled device** - Users need a device with camera for testing
+3. **Demo Video** - Place a demo video file at `data/demo_video.mp4` for cloud deployment
+
+## 🎥 Prepare Demo Video
+
+Since Render doesn't have camera access, you need a demo video:
+
+```bash
+# Create data directory if it doesn't exist
+mkdir -p data
+
+# Record or download a demo video and save it as:
+# data/demo_video.mp4
+```
+
+The video should show people walking, objects in different distances, etc.
 
 ## 🚀 Deployment Steps
 
@@ -59,7 +64,8 @@ The deployed version uses **browser camera capture**:
 
 4. Add Environment Variables:
    ```
-   USE_BROWSER_CAMERA=true
+   USE_DEMO_VIDEO=true
+   DEMO_VIDEO_PATH=data/demo_video.mp4
    YOLO_MODEL=yolo11l.pt
    YOLO_CONF=0.25
    USE_DEPTH_ESTIMATION=true
@@ -123,29 +129,10 @@ The deployed version uses **browser camera capture**:
 
 ## 💡 Tips for Hackathon Demo
 
-1. **Test camera permissions**: Ensure browser allows camera access
-2. **Use good lighting**: Better lighting = better detection accuracy
-3. **Test on mobile**: Works great on phones with rear camera
-4. **Keep the service warm**: Visit your app every 10 minutes before demo
-5. **HTTPS required**: Browser camera only works on HTTPS (Render provides this automatically)
-6. **Have a backup**: Keep localhost version ready as fallback
-
-## 🎯 Testing Locally with Browser Camera
-
-To test browser camera mode locally:
-
-```bash
-# Set environment variable
-export USE_BROWSER_CAMERA=true
-
-# Run backend
-source venv/bin/activate && python ui_server.py
-
-# In another terminal, run frontend
-cd ui && npm start
-
-# Visit http://localhost:3000 and allow camera access
-```
+1. **Keep the service warm**: Visit your app every 10 minutes before your demo
+2. **Pre-record a video**: Use a high-quality demo video showing various scenarios
+3. **Test WebSocket**: Ensure speech output is working before your presentation
+4. **Have a backup**: Keep localhost version ready as fallback
 
 ## 📊 Resource Usage
 
